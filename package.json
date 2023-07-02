@@ -1,0 +1,45 @@
+{
+  "name": "lightning-no-1",
+  "version": "1.0.0",
+  "homepage": "https://lightning-no-1.labcat.nz",
+  "private": true,
+  "dependencies": {
+    "@react-three/drei": "^7.4.0",
+    "@react-three/fiber": "^7.0.6",
+    "@tonejs/midi": "^2.0.28",
+    "p5": "^1.4",
+    "react": "^17.0",
+    "react-dom": "^17.0",
+    "react-scripts": "^4.0",
+    "three": "^0.143.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
+  }
+}
