@@ -1,7 +1,7 @@
 {
-  "name": "lightning-no-1",
+  "name": "flowers-no-1",
   "version": "1.0.0",
-  "homepage": "https://lightning-no-1.labcat.nz",
+  "homepage": "https://flowers-no-1.labcat.nz",
   "private": true,
   "dependencies": {
     "@react-three/drei": "^7.4.0",
