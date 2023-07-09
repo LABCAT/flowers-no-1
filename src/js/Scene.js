@@ -20,12 +20,12 @@ export default function Scene() {
           objectsArray.push(string);
         };
     return (
-        <Canvas camera={{ position: [1.0, 1.0, 1.0] }}>
+        <Canvas camera={{ position: [1.0, 1.0, 1.0] }} alpha={true}>
             <Suspense fallback='loading...'>
-                <ambientLight intensity={0.5} />
+                {/* <ambientLight intensity={0.5} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
                 <pointLight position={[-10, -10, -10]} />
-                <Stars radius={75} saturation={50} fade={true} />
+                <Stars radius={75} saturation={50} fade={true} /> */}
                 {/* <>
                     {notes.map((note, index) => (
                         <Flower key={index} pos={[note.xPos, note.yPos, note.zPos]} colour={note.colour} addToObjectsArray={addToObjectsArray} />
