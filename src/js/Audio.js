@@ -5,8 +5,8 @@ import * as p5 from "p5";
 import { Midi } from '@tonejs/midi'
 import PlayIcon from './functions/PlayIcon.js';
 
-import audio from "../audio/lightning-no-1.ogg";
-import midi from "../audio/lightning-no-1.mid";
+import audio from "../audio/flowers-no-1.ogg";
+import midi from "../audio/flowers-no-1.mid";
 import { Context } from "./context/Context.js";
 
 const Audio = () => {
@@ -191,7 +191,7 @@ const Audio = () => {
 
     useEffect(() => {
         animation.current = new p5(Sketch, sketchRef.current);
-    }, []);
+    });
 
 
     return (

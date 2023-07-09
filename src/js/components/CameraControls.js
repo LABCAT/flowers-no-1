@@ -17,7 +17,7 @@ export default function CameraControls(props) {
   const controls = useRef();
   useFrame(() => {
     if(canSetCameraPos) {
-      camera.position.set( 0, 0, cameraZPos );
+      camera.position.set( 0, 0, -275);
       updateCanSetCameraPos();
     }
     controls.current.autoRotate = true;

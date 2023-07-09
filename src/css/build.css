@@ -1,57 +1,5 @@
-/*
-https: //codepen.io/stewpedaso/pen/mRbNRY
-https: //stackoverflow.com/questions/6542212/use-css3-transitions-with-gradient-backgrounds
-https: //www.joshwcomeau.com/gradient-generator/ 
-https: //non-boring-gradients.netlify.app/
-*/
 :root {
-  --bg-gradient-1: linear-gradient(0deg,
-      rgba(27, 17, 77, 1) -8.35%,
-      rgba(29, 22, 87, 1) -5.1%,
-      rgba(51, 65, 174, 1) 28.53%,
-      rgba(59, 82, 208, 1) 43.72%,
-      rgba(53, 100, 213, 1) 51.31%,
-      rgba(0, 0, 0, 1) 100.13%);
-  --bg-gradient-2: linear-gradient(0deg,
-      rgba(84, 0, 84, 1) -8.35%,
-      rgba(98, 9, 92, 1) -5.1%,
-      rgba(111, 17, 100, 1) 28.53%,
-      rgba(138, 33, 116, 1) 43.72%,
-      rgba(202, 98, 166, 1) 51.31%,
-      rgba(0, 0, 0, 1) 100.13%);
-  --bg-gradient-3: linear-gradient(0deg,
-        hsl(240deg 100% 20%) -8.35%,
-        hsl(279deg 100% 27%) -5.1%,
-        hsl(318deg 100% 33%) 28.53%,
-        hsl(357deg 100% 40%) 43.72%,
-        hsl(36deg 100% 47%) 51.31%,
-        rgba(0, 0, 0, 1) 100.13%);
-  --bg-gradient-4: linear-gradient(0deg,
-      rgb(96.471% 43.137% 100%) -8.35%,
-      rgb(93.603% 46.667% 99.461%) -5.1%,
-      rgb(90.735% 50.196% 98.922%) 28.53%,
-      rgb(87.868% 53.725% 98.382%) 43.72%,
-      rgb(85% 57.255% 97.843%) 51.31%,
-      rgba(0, 0, 0, 1) 100.13%);
-  --bg-gradient-6: linear-gradient(0deg,
-      #A7EDFA -8.35%,
-      #9AEAF4 -5.1%,
-      #8CE6EE 28.53%,
-      #BED6E7 43.72%,
-      #D7CEE3 51.31%,
-      #F0C5DF 67.59%,
-      #DC99BA 89.28%,
-      #C86D95 100.13%);
-  --bg-gradient-5: linear-gradient(0deg,
-      #E602BC -8.35%,
-      #AE20C5 -5.1%,
-      #753ECD 28.53%,
-      #2060C6 43.72%,
-      #036BC3 51.31%,
-      #023D6F 67.59%,
-      #011F38 89.28%,
-      #000000 100.13%);
-  --canvas-bg: var(--bg-gradient-1);
+  --dark-color: #000;
 }
 
 body {
@@ -66,14 +14,29 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: linear-gradient(0deg,
-          rgba(27, 17, 77, 1) -8.35%,
-          rgba(29, 22, 87, 1) -5.1%,
-          rgba(51, 65, 174, 1) 28.53%,
-          rgba(59, 82, 208, 1) 43.72%,
-          rgba(53, 100, 213, 1) 51.31%,
-          rgba(0, 0, 0, 1) 100.13%);
-    background: var(--canvas-bg);
+    filter: blur(0.1vmin);
+    background-image: radial-gradient(ellipse at top,
+        transparent 0%,
+        var(--dark-color)),
+      radial-gradient(ellipse at bottom,
+        var(--dark-color),
+        rgba(145, 233, 255, 0.2)),
+      repeating-linear-gradient(220deg,
+        rgb(0, 0, 0) 0px,
+        rgb(0, 0, 0) 19px,
+        transparent 19px,
+        transparent 22px),
+      repeating-linear-gradient(189deg,
+        rgb(0, 0, 0) 0px,
+        rgb(0, 0, 0) 19px,
+        transparent 19px,
+        transparent 22px),
+      repeating-linear-gradient(148deg,
+        rgb(0, 0, 0) 0px,
+        rgb(0, 0, 0) 19px,
+        transparent 19px,
+        transparent 22px),
+      linear-gradient(90deg, rgb(0, 255, 250), rgb(240, 240, 240));
 }
 
 #play-button {
@@ -90,7 +53,7 @@ body {
 }
 
 .play-icon {
-  fill: transparent;
+  fill: white;
   width: 120px;
   height: 120px;
 }
@@ -136,6 +99,7 @@ body {
 
 .loading--complete {
   opacity: 0;
+  z-index: -1;
 }
 
 
