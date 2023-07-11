@@ -12,7 +12,7 @@ import { Context } from "./context/Context.js";
 const Audio = () => {
     const animation = useRef();
     const sketchRef = useRef();
-    const { coloursOptions, updateNotes, resetNotes, updateCurrentNote, updateCameraZPos, updateCameraRotateSpeed } = useContext(Context);
+    const { updateNotes } = useContext(Context);
 
     const Sketch = p => {
 
@@ -31,7 +31,7 @@ const Audio = () => {
         p.loadMidi = () => {
             Midi.fromUrl(midi).then(
                 function(result) {
-                    const noteSet1 = result.tracks[8].notes; // Combinator 1 - Touch Orchestra
+                    const noteSet1 = result.tracks[0].notes; // Synth 1
                     p.scheduleCueSet(noteSet1, 'executeCueSet1');
                     p.audioLoaded = true;
                     document.getElementById("loader").classList.add("loading--complete");
@@ -76,42 +76,10 @@ const Audio = () => {
         p.gridVersion = 1;
 
         p.executeCueSet1 = (note) => {
-            const { currentCue, ticks } = note;
-            const colours =coloursOptions,
-                colour  = colours[Math.floor(Math.random() * colours.length)],
-                dist = currentCue > 15 ? 150 : currentCue;
-            
-            updateCurrentNote(note);
-            updateCameraZPos(note);
-
-            if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1 && currentCue % 2 === 0 && currentCue < 84){
-                resetNotes();
-            }
-            else if (currentCue % 14 < 6 && currentCue < 84 && currentCue % 2 === 0){
-                resetNotes();
-            }
-            else if ([6, 10, 1].includes(currentCue % 14)){
-                resetNotes();
-            }
-
-            if((currentCue % 14 === 1 || ticks % 61440 === 0) && currentCue > 14) {
-                const root = document.documentElement,
-                    gridOptions = [1,2,3,4,5];
-                gridOptions.splice(p.gridVersion - 1, 1);
-                p.gridVersion = p.random(gridOptions);
-                root.style.setProperty("--canvas-bg", "var(--bg-gradient-" + p.gridVersion + ')');
-            }
-
-            if(currentCue % 14 === 1 && currentCue > 15) {
-                updateCameraRotateSpeed();
-            }
-
+            const { currentCue } = note;
             updateNotes(
                 {
-                    colour: colour,
-                    xPos: p.random(-dist, dist),
-                    yPos: p.random(-dist/2 - 50, dist/2 - 50),
-                    zPos: p.random(-50, dist)
+                    cue: currentCue
                 }
             );
         }
@@ -170,7 +138,6 @@ const Audio = () => {
     };
 
     const playHandler = () => {
-        console.log(animation.current);
         if(animation.current) {
             
             if(animation.current.audioLoaded){
