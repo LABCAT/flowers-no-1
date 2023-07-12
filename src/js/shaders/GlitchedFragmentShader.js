@@ -1,4 +1,4 @@
-const FragmentShader = `
+const GlitchedFragmentShader = `
 #define PI 3.14159265359
 
 uniform float u_ratio;
@@ -104,7 +104,7 @@ float flower_shape(vec2 _point, float _size, float _outline, float _tickniess, f
 
 void main() {
 
-    vec3 base = texture2D(u_texture, vUv).rgb;
+    vec3 base = texture2D(u_texture, vUv + vec2(sin(vUv.x * 15.0) * 0.02, sin(vUv.y * 15.0) * 0.02)).rgb;
     vec2 cursor = vUv - u_point.xy;
     cursor.x *= u_ratio;
 
@@ -146,4 +146,4 @@ void main() {
 }
 `
 
-export default FragmentShader;
+export default GlitchedFragmentShader;

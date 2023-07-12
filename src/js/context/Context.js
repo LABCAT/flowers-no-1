@@ -5,10 +5,7 @@ import Reducer from "./Reducer";
 const initialState = {
     audioIsPlaying: false,
     notes: [],  
-    currentNote: 0,
-    canSetCameraPos: true,
-    cameraZPos: -1050,
-    cameraRotateSpeed: -2
+    currentNote: 0
 }
 
 export const Context = createContext(initialState);
@@ -22,7 +19,10 @@ export const GlobalContextProvider = ({ children }) => {
 
     const updateNotes = (newNote) => {
         dispatch({ type: "UPDATE_NOTES", payload: newNote });
-        console.log(state.notes);
+    }
+
+    const updateCurrentNote = (newNote) => {
+        dispatch({ type: "UPDATE_CURRENT_NOTE", payload: newNote });
     }
 
     return <Context.Provider
@@ -32,6 +32,8 @@ export const GlobalContextProvider = ({ children }) => {
                 updateIsAudioPlaying,
                 notes: state.notes,
                 updateNotes,
+                currentNote: state.currentNote,
+                updateCurrentNote,
             }
         }
     >

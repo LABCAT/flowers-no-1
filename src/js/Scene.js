@@ -1,8 +1,6 @@
 import React, { Suspense, useContext } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Stars } from "@react-three/drei";
 import { Context } from "./context/Context";
-import CameraControls from './components/CameraControls'
 import Flower from './components/Flower'
 
 /**
@@ -13,15 +11,13 @@ import Flower from './components/Flower'
  * https://codepen.io/mdusmanansari/pen/BamepLe
  * 
  */
-
 export default function Scene() {
-        const { notes  } = useContext(Context);
+    const { notes, currentNote } = useContext(Context);
 
-        console.log(notes);
-        return (
+    return (
         <Canvas camera={{ position: [1.0, 1.0, 1.0] }} orthographic={true}>
             <Suspense fallback='loading...'>
-                <Flower />
+                <Flower notes={notes} currentNote={currentNote} />
             </Suspense>
         </Canvas>
     );

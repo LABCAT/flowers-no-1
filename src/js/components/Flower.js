@@ -1,78 +1,56 @@
-import React, { useRef, useMemo, useEffect, useContext } from "react";
+import React, { useRef, useMemo, useEffect, useState } from "react";
 import { useFrame, createPortal } from "@react-three/fiber";
 import { useFBO } from '@react-three/drei';
 import * as THREE from 'three';
 
-import { Context } from "../context/Context";
-
 import VertexShader from '../shaders/VertexShader';
 import FragmentShader from '../shaders/FragmentShader';
-
-const pointer = {
-    x: .66,
-    y: .3,
-    clicked: true,
-};
-
-// window.setTimeout(() => {
-//     pointer.x = .75;
-//     pointer.y = .5;
-//     pointer.clicked = true;
-// }, 700);
-
-// window.setTimeout(() => {
-//     pointer.x = .15;
-//     pointer.y = .65;
-//     pointer.clicked = true;
-// }, 1700);
-
-//https://github.com/pmndrs/react-three-fiber/discussions/2494
+import GlitchedFragmentShader from '../shaders/GlitchedFragmentShader';
 
 export default function Flower(props) {
-    const { notes } = props;
+    const { notes, currentNote  } = props;
     const mesh = useRef();
     const mesh2 = useRef();
+    const [canvasClear, setCanvasClear] = useState(false);
+    const [currentShader, setCurrentShader] = useState(FragmentShader);
+    const [glichtedMode, setGlichtedMode] = useState(false);
 
     let renderTargetA = useFBO(window.innerWidth, window.innerHeight);
     let renderTargetB = useFBO(window.innerWidth, window.innerHeight);
 
     const magicScene = new THREE.Scene();
 
+    const flowerPointer = {
+        x: 0.5,
+        y: 0.5,
+        grow: false,
+    };
+
 
     const uniforms = useMemo(
         () => ({
             u_stop_time: {type: "f", value: 0.},
-            u_point: {type: "v2", value: new THREE.Vector2(pointer.x, pointer.y)},
+            u_point: {type: "v2", value: new THREE.Vector2(flowerPointer.x, flowerPointer.y)},
             u_moving: {type: "f", value: 0.},
             u_speed: {type: "f", value: 0.},
             u_stop_randomizer: {type: "v2", value: new THREE.Vector2(Math.random(), Math.random())},
             u_clean: {type: "f", value: 1.},
             u_ratio: {type: "f", value: window.innerWidth / window.innerHeight},
             u_texture: {type: "t", value: null}
-        }), []
+        }), [flowerPointer.x, flowerPointer.y]
     );
 
-    // window.addEventListener("click", e => {
-    //     pointer.x = e.pageX / window.innerWidth;
-    //     pointer.y = e.pageY / window.innerHeight;
-    //     pointer.clicked = true;		
-    // });
-        
-  
     useFrame((state) => {
         const { clock, gl, scene, camera } = state;
-        mesh.current.material.uniforms.u_clean.value = 1;
-        
-
-        mesh.current.material.uniforms.u_clean.value = 1;
-        mesh.current.material.uniforms.u_point.value = new THREE.Vector2(pointer.x, 1 - pointer.y);
+        mesh.current.material.uniforms.u_clean.value = canvasClear ? 0 : 1;
+        mesh.current.material.uniforms.u_point.value = new THREE.Vector2(flowerPointer.x, 1 - flowerPointer.y);
         mesh.current.material.uniforms.u_texture.value = renderTargetA.texture;
         mesh.current.material.uniforms.u_ratio.value = window.innerWidth / window.innerHeight;
-        if (pointer.clicked) {
+        if (flowerPointer.grow) {
             mesh.current.material.uniforms.u_moving.value = 1.;
             mesh.current.material.uniforms.u_stop_randomizer.value = new THREE.Vector2(Math.random(), Math.random());
             mesh.current.material.uniforms.u_stop_time.value = 0.;
-            pointer.clicked = false;
+            flowerPointer.grow = false;
         } else {
             mesh.current.material.uniforms.u_moving.value = 0.;
         }
@@ -91,9 +69,31 @@ export default function Flower(props) {
 
     useEffect(
         () => {
-            console.log(notes);
+            if(currentNote.clearCanvas) {
+                setCanvasClear(true);
+                setGlichtedMode(!glichtedMode);
+
+                if(currentNote.canGlitch) {
+                     if(glichtedMode) {
+                        setCurrentShader(GlitchedFragmentShader);
+                    }
+                    else {
+                        setCurrentShader(FragmentShader);
+                    }
+                }
+
+                setTimeout(() => {
+                    setCanvasClear(false);
+                }, 50);
+            }
+
+            if(notes.length) {
+                flowerPointer.x = Math.random();
+                flowerPointer.y = Math.random();
+                flowerPointer.grow = true;
+            }
         }, 
-        [notes]
+        [notes, currentNote]
     );
 
 
@@ -102,7 +102,7 @@ export default function Flower(props) {
             <mesh ref={mesh}>
                 <planeGeometry args={[2, 2]} />
                 <shaderMaterial
-                    fragmentShader={FragmentShader}
+                    fragmentShader={currentShader}
                     vertexShader={VertexShader}
                     uniforms={uniforms}
                     wireframe={false}

@@ -12,7 +12,7 @@ import { Context } from "./context/Context.js";
 const Audio = () => {
     const animation = useRef();
     const sketchRef = useRef();
-    const { updateNotes } = useContext(Context);
+    const { updateNotes, updateCurrentNote } = useContext(Context);
 
     const Sketch = p => {
 
@@ -76,7 +76,16 @@ const Audio = () => {
         p.gridVersion = 1;
 
         p.executeCueSet1 = (note) => {
-            const { currentCue } = note;
+            const { currentCue, ticks } = note;
+            note.clearCanvas = false;
+            note.canGlitch = false;
+            if(ticks % 245760 === 11520){
+                note.clearCanvas = true;
+                if(ticks > 250000) {
+                    note.canGlitch = true;
+                }
+            }
+            updateCurrentNote(note);
             updateNotes(
                 {
                     cue: currentCue
@@ -138,8 +147,8 @@ const Audio = () => {
     };
 
     const playHandler = () => {
+        
         if(animation.current) {
-            
             if(animation.current.audioLoaded){
                 if (animation.current.song.isPlaying()) {
                     animation.current.song.pause();
@@ -157,7 +166,9 @@ const Audio = () => {
     }
 
     useEffect(() => {
-        animation.current = new p5(Sketch, sketchRef.current);
+        if(!animation.current) {
+            animation.current = new p5(Sketch, sketchRef.current);
+        }
     });
 
 
