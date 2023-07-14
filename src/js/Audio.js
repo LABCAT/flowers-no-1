@@ -79,11 +79,12 @@ const Audio = () => {
             const { currentCue, ticks } = note;
             note.clearCanvas = false;
             note.canGlitch = false;
-            if(ticks % 245760 === 11520){
-                note.clearCanvas = true;
-                if(ticks > 250000) {
-                    note.canGlitch = true;
+            console.log(currentCue);
+            if(ticks % 245760 === 11520 || currentCue === 140){
+                if(currentCue < 140) {
+                    note.clearCanvas = true;
                 }
+                note.canGlitch = true;
             }
             updateCurrentNote(note);
             updateNotes(

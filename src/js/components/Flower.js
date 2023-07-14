@@ -71,25 +71,25 @@ export default function Flower(props) {
         () => {
             if(currentNote.clearCanvas) {
                 setCanvasClear(true);
-                setGlichtedMode(!glichtedMode);
-
-                if(currentNote.canGlitch) {
-                     if(glichtedMode) {
-                        setCurrentShader(GlitchedFragmentShader);
-                    }
-                    else {
-                        setCurrentShader(FragmentShader);
-                    }
-                }
 
                 setTimeout(() => {
                     setCanvasClear(false);
                 }, 50);
             }
 
+            if(currentNote.canGlitch) {
+                setGlichtedMode(!glichtedMode);
+                if(glichtedMode) {
+                    setCurrentShader(GlitchedFragmentShader);
+                }
+                else {
+                    setCurrentShader(FragmentShader);
+                }
+            }
+
             if(notes.length) {
                 flowerPointer.x = Math.random();
-                flowerPointer.y = Math.random();
+                flowerPointer.y = Math.random() * (0.9 - 0.25) + 0.25;
                 flowerPointer.grow = true;
             }
         }, 

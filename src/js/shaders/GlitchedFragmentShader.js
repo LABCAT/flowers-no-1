@@ -91,7 +91,7 @@ float flower_shape(vec2 _point, float _size, float _outline, float _tickniess, f
     float radius_noise = sin(flower_angle * 13. + 15. * random_by_uv);
     flower_radial_shape += _noise * radius_noise;
 
-    float flower_radius_grow = min(20000. * u_stop_time, 1.);
+    float flower_radius_grow = 1.;
     flower_radius_grow = 1. / flower_radius_grow;
 
     float flower_shape = 1. - smoothstep(0., _size * flower_sectoral_shape, _outline * flower_radius_grow * flower_radial_shape);
@@ -103,8 +103,8 @@ float flower_shape(vec2 _point, float _size, float _outline, float _tickniess, f
 }
 
 void main() {
-
-    vec3 base = texture2D(u_texture, vUv + vec2(sin(vUv.x * 15.0) * 0.02, sin(vUv.y * 15.0) * 0.02)).rgb;
+    vec2 gridUV = vec2(sin(vUv.x * 3.0) / 3.0, sin(vUv.y * 3.0) / 3.0);
+    vec3 base = texture2D(u_texture, gridUV).rgb;
     vec2 cursor = vUv - u_point.xy;
     cursor.x *= u_ratio;
 

@@ -91,8 +91,7 @@ float flower_shape(vec2 _point, float _size, float _outline, float _tickniess, f
     float radius_noise = sin(flower_angle * 13. + 15. * random_by_uv);
     flower_radial_shape += _noise * radius_noise;
 
-    float flower_radius_grow = min(20000. * u_stop_time, 1.);
-    flower_radius_grow = 1. / flower_radius_grow;
+    float flower_radius_grow = 1.;
 
     float flower_shape = 1. - smoothstep(0., _size * flower_sectoral_shape, _outline * flower_radius_grow * flower_radial_shape);
     flower_shape *= (1. - u_moving);
